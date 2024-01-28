@@ -1,0 +1,11 @@
+*pycache*
+*.pyc
+*.env
+*.cfg
+
+Include/
+Lib/
+Scripts/
+share/
+
+courses/*

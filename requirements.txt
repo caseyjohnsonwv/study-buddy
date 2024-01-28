@@ -1,0 +1,11 @@
+python-dotenv
+
+python-pptx
+
+faiss-cpu
+langchain
+langchain-community
+langchain-openai
+tiktoken
+
+gradio
