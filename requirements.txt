@@ -1,5 +1,7 @@
 python-dotenv
 
+beautifulsoup4
+pypdf
 python-pptx
 
 faiss-cpu
