@@ -17,6 +17,6 @@ OPENAI_API_KEY=
 OPENAI_ORG_ID=
 ```
 2. Create a virtual envirionment and run `pip install -r requirements.txt`.
-3. Drop course materials in named subdirectories under `courses/`. For example, `courses/ENGLISH101`
+3. Drop course materials in named subdirectories under a new `courses/`directory . For example, `courses/ENGLISH101/Chapter 1`
 4. Run `python app.py` from the project root.
 5. Open the Gradio UI and start asking questions.

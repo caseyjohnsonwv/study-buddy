@@ -6,13 +6,14 @@ import gradio as gr
 import env
 from utils.vectordb import VectorDB
 
-COURSE = VectorDB('HMG6228', force_recreate=True)
-CHAT_MODEL = ChatOpenAI(model='gpt-3.5-turbo', temperature=0, api_key=env.OPENAI_API_KEY, organization=env.OPENAI_ORG_ID)
+COURSE = VectorDB('HMG6228', force_recreate=False)
+CHAT_MODEL = ChatOpenAI(model='gpt-3.5-turbo-16k', temperature=0, api_key=env.OPENAI_API_KEY, organization=env.OPENAI_ORG_ID)
 
 SYSTEM_TEMPLATE = """
     You are a helpful study assistant who examines educational materials to answer questions.
     Given the context below, beneath the triple backticks, answer the human's question.
-    Cite the associated filename and page or slide number (if applicable) when answering so the human can read further.
+    Cite the associated filenames and page/slide numbers (if applicable) when answering so the human can read further.
+    You only need to cite each unique source once.
     Format outputs into lists and tables as appropriate for readability.
     Always prefer the context below over your pre-existing knowledge.
     ```
@@ -21,7 +22,7 @@ SYSTEM_TEMPLATE = """
 def chat_function(message:str, history:List[Tuple[str, str]]):
     messages = []
     # retrieve context
-    retrieved_docs = COURSE.search(message, k=5)
+    retrieved_docs = COURSE.search(message, k=10)
     if len(retrieved_docs) == 0:
         return 'Sorry, no relevant documents found.'
     retrieved_docs.sort(key=lambda t:t[1], reverse=True)
