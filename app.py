@@ -6,7 +6,7 @@ import gradio as gr
 import env
 from utils.vectordb import VectorDB
 
-COURSE = VectorDB('HMG6228', force_recreate=False)
+COURSE = VectorDB('HMG6228')
 CHAT_MODEL = ChatOpenAI(model='gpt-3.5-turbo-16k', temperature=0, api_key=env.OPENAI_API_KEY, organization=env.OPENAI_ORG_ID)
 
 SYSTEM_TEMPLATE = """
