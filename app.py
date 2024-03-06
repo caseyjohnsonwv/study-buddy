@@ -6,23 +6,27 @@ import gradio as gr
 import env
 from utils.vectordb import VectorDB
 
-COURSE = VectorDB('HMG6228', force_recreate=False)
-CHAT_MODEL = ChatOpenAI(model='gpt-3.5-turbo-16k', temperature=0, api_key=env.OPENAI_API_KEY, organization=env.OPENAI_ORG_ID)
+KNOWLEDGEBASE = VectorDB('./courses')
+CHAT_MODEL = ChatOpenAI(model='gpt-3.5-turbo-16k', temperature=0, api_key=env.OPENAI_API_KEY)
 
 SYSTEM_TEMPLATE = """
     You are a helpful study assistant who examines educational materials to answer questions.
     Given the context below, beneath the triple backticks, answer the human's question.
+    Always prefer the context below over your pre-existing knowledge.
+    Always double-check and justify your answer, even if it seems redundant.
     Cite the associated filenames and page/slide numbers (if applicable) when answering so the human can read further.
     You only need to cite each unique source once.
     Format outputs into lists and tables as appropriate for readability.
-    Always prefer the context below over your pre-existing knowledge.
     ```
 """.replace('\t', '').strip()
 
-def chat_function(message:str, history:List[Tuple[str, str]]):
+def chat_function(message:str, history:List[Tuple[str, str]], course_name:str=None):
     messages = []
     # retrieve context
-    retrieved_docs = COURSE.search(message, k=10)
+    metadata_filter = {}
+    if course_name:
+        metadata_filter['course_name'] = course_name
+    retrieved_docs = KNOWLEDGEBASE.search(phrase=message, k=10, metadata_filter=metadata_filter)
     if len(retrieved_docs) == 0:
         return 'Sorry, no relevant documents found.'
     retrieved_docs.sort(key=lambda t:t[1], reverse=True)
@@ -38,5 +42,12 @@ def chat_function(message:str, history:List[Tuple[str, str]]):
     res = CHAT_MODEL.invoke(input=messages)
     return res.content
 
-interface = gr.ChatInterface(chat_function)
-interface.launch()
+course_names = KNOWLEDGEBASE.list_indexed_courses()
+INTERFACE = gr.ChatInterface(
+    chat_function,
+    additional_inputs=[
+        gr.Dropdown(choices=sorted(list(course_names)), label='Course'),
+    ],
+    title='Study Buddy',
+)
+INTERFACE.launch()
