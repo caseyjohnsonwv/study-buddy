@@ -6,7 +6,7 @@ import gradio as gr
 import env
 from utils.vectordb import VectorDB
 
-COURSE = VectorDB('HMG6596')
+KNOWLEDGEBASE = VectorDB('./courses')
 CHAT_MODEL = ChatOpenAI(model='gpt-3.5-turbo-16k', temperature=0, api_key=env.OPENAI_API_KEY)
 
 SYSTEM_TEMPLATE = """
@@ -23,7 +23,7 @@ SYSTEM_TEMPLATE = """
 def chat_function(message:str, history:List[Tuple[str, str]]):
     messages = []
     # retrieve context
-    retrieved_docs = COURSE.search(message, k=10)
+    retrieved_docs = KNOWLEDGEBASE.search(message, k=10)
     if len(retrieved_docs) == 0:
         return 'Sorry, no relevant documents found.'
     retrieved_docs.sort(key=lambda t:t[1], reverse=True)
