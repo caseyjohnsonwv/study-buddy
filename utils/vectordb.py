@@ -5,7 +5,6 @@ from typing import List, Set, Tuple
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.docstore.document import Document
 from langchain_community.document_loaders.html_bs import BSHTMLLoader
-from langchain_community.document_transformers import BeautifulSoupTransformer
 from langchain_community.vectorstores.faiss import FAISS
 from langchain_openai import OpenAIEmbeddings
 from pptx import Presentation
