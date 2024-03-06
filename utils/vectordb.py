@@ -18,6 +18,13 @@ class VectorDB:
 
     def search(self, phrase:str, k:int=5, metadata_filter:dict={}) -> List[Tuple[Document, float]]:
         return self._vectorstore.similarity_search_with_score(phrase, k=k, filter=metadata_filter)
+    
+    def list_indexed_courses(self) -> Set[str]:
+        if self._vectorstore is None:
+            return set()
+        retriever = self._vectorstore.as_retriever(search_kwargs={'k':999999})
+        existing_documents = retriever.get_relevant_documents(query='')
+        return {doc.metadata['course_name'] for doc in existing_documents}
 
     def __init__(self, courses_root_path:str):
         self._courses_root_path = os.path.normpath(courses_root_path)
