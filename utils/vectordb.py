@@ -21,7 +21,7 @@ class VectorDB:
     def search(self, phrase:str, k:int=5, metadata_filter:dict={}) -> List[Tuple[Document, float]]:
         return self._vectorstore.similarity_search_with_score(phrase, k=k, filter=metadata_filter)
 
-    def __init__(self, course_name:str, force_recreate:bool=False) -> None:
+    def __init__(self, course_name:str):
         self.course_name = course_name
         self._course_path = os.path.normpath(os.path.join('courses', course_name.strip().upper()))
         self._embeddings = OpenAIEmbeddings(model='text-embedding-ada-002', api_key=env.OPENAI_API_KEY, organization=env.OPENAI_ORG_ID)

@@ -6,16 +6,17 @@ import gradio as gr
 import env
 from utils.vectordb import VectorDB
 
-COURSE = VectorDB('HMG6228')
-CHAT_MODEL = ChatOpenAI(model='gpt-3.5-turbo-16k', temperature=0, api_key=env.OPENAI_API_KEY, organization=env.OPENAI_ORG_ID)
+COURSE = VectorDB('HMG6596')
+CHAT_MODEL = ChatOpenAI(model='gpt-3.5-turbo-16k', temperature=0, api_key=env.OPENAI_API_KEY)
 
 SYSTEM_TEMPLATE = """
     You are a helpful study assistant who examines educational materials to answer questions.
     Given the context below, beneath the triple backticks, answer the human's question.
+    Always prefer the context below over your pre-existing knowledge.
+    Always double-check and justify your answer, even if it seems redundant.
     Cite the associated filenames and page/slide numbers (if applicable) when answering so the human can read further.
     You only need to cite each unique source once.
     Format outputs into lists and tables as appropriate for readability.
-    Always prefer the context below over your pre-existing knowledge.
     ```
 """.replace('\t', '').strip()
 
