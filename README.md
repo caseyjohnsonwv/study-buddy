@@ -14,7 +14,6 @@ Study Buddy is not a replacement for students' own thoughts & learnings. While t
 1. Create a `.env` file in the project root containing:
 ```
 OPENAI_API_KEY=
-OPENAI_ORG_ID=
 ```
 2. Create a virtual envirionment and run `pip install -r requirements.txt`.
 3. Drop course materials in named subdirectories under a new `courses/`directory . For example, `courses/ENGLISH101/Chapter 1`
@@ -42,3 +41,7 @@ Forms of non-monetary compensation include:
 10. Career advancement opportunities: Offering opportunities for promotion, job rotation, or cross-training to help employees advance in their careers.
 
 (Source: "Compensation & Benefits - March 23.pptx", slide 26)
+
+## Limitations
+
+This tool can index `.html`, `.pdf`, and `.pptx` files. Other filetypes are currently not supported.
