@@ -50,6 +50,7 @@ INTERFACE = gr.ChatInterface(
     additional_inputs=[
         gr.Dropdown(choices=sorted(list(course_names)), label='Course'),
     ],
+    additional_inputs_accordion=gr.Accordion(label='Filters', open=True),
     title='Study Buddy',
 )
 INTERFACE.launch(server_name=env.SERVER_HOST, server_port=env.SERVER_PORT)
