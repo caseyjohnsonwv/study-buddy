@@ -4,10 +4,10 @@ from langchain_openai import ChatOpenAI
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
 import gradio as gr
 import env
-from utils.vectordb import VectorDB
+from vectordb import VectorDB
 
 KNOWLEDGEBASE = VectorDB('./courses')
-CHAT_MODEL = ChatOpenAI(model='gpt-3.5-turbo-16k', temperature=0, api_key=env.OPENAI_API_KEY)
+CHAT_MODEL = ChatOpenAI(model='gpt-3.5-turbo-16k', temperature=0, api_key=env.OPENAI_API_KEY, streaming=True)
 
 SYSTEM_TEMPLATE = """
     You are a helpful study assistant who examines educational materials to answer questions.
@@ -39,8 +39,10 @@ def chat_function(message:str, history:List[Tuple[str, str]], course_name:str=No
         messages.append(AIMessage(content=ai))
     messages.append(HumanMessage(content=message))
     # feed into chatgpt for response
-    res = CHAT_MODEL.invoke(input=messages)
-    return res.content
+    full_answer = ''
+    for chunk in CHAT_MODEL.stream(input=messages):
+        full_answer += chunk.content
+        yield full_answer
 
 course_names = KNOWLEDGEBASE.list_indexed_courses()
 INTERFACE = gr.ChatInterface(
@@ -50,4 +52,4 @@ INTERFACE = gr.ChatInterface(
     ],
     title='Study Buddy',
 )
-INTERFACE.launch()
+INTERFACE.launch(server_name=env.SERVER_HOST, server_port=env.SERVER_PORT)
