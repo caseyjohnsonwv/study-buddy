@@ -15,8 +15,8 @@ Study Buddy is not a replacement for students' own thoughts & learnings. While t
 ```
 OPENAI_API_KEY=
 ```
-2. Create a virtual envirionment and run `pip install -r requirements.txt`.
-3. Drop course materials in named subdirectories under a new `courses/`directory . For example, `courses/ENGLISH101/Chapter 1`
+2. Run `poetry install` to install project dependencies.
+3. Drop course materials in named subdirectories under a new `courses/`directory . For example, `courses/ENGLISH101/Chapter 1/[new file]`
 4. Run `python app.py` from the project root.
 5. Open the Gradio UI and start asking questions.
 
