@@ -7,7 +7,7 @@ import env
 from vectordb import VectorDB
 
 KNOWLEDGEBASE = VectorDB('./courses')
-CHAT_MODEL = ChatOpenAI(model='gpt-3.5-turbo-16k', temperature=0, api_key=env.OPENAI_API_KEY, streaming=True)
+CHAT_MODEL = ChatOpenAI(model='gpt-3.5-turbo', temperature=0, api_key=env.OPENAI_API_KEY, streaming=True)
 
 SYSTEM_TEMPLATE = """
     You are a helpful study assistant who examines educational materials to answer questions.
